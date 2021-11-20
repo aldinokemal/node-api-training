@@ -30,8 +30,10 @@ export default class UserRepository implements IUserRepository<any> {
         // return Promise.resolve(this.books);
     }
 
-    async findOneBy(): Promise<IUser | undefined> {
-        let data = await this.db.user.findFirst()
+    async findOneByEmail(email: string): Promise<IUser | undefined> {
+        let data = await this.db.user.findUnique({
+            where: {email: email}
+        })
         if (data) {
             let output: IUser = {
                 user_id: Number(data.user_id),

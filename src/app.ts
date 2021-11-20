@@ -8,10 +8,11 @@ import {errorMiddleware, timeOutMiddleware} from "@src/middlewares";
 import {responseJSON} from "@helpers/response";
 import multerParser from "multer";
 import Database from "@src/config/database";
+import { config } from '@src/config';
 
 class Server {
     app = express()
-    port: number = 8080;
+    port: number = config.APP_PORT;
 
     applyMiddleware() {
         this.app.use(bodyParser.json());
