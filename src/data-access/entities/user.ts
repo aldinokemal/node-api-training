@@ -4,8 +4,8 @@ export interface IUser {
     password: string
     picture: string
     gender: string
-    fullname: string
-    birthday: Date
-    created_at: Date
-    updated_at: Date
+    fullname: string | null
+    birthday: Date | null
+    created_at: Date | null
+    updated_at: Date | null
 }

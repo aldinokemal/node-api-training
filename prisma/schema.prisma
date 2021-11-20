@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DB_URL")
+}
+
+model event {
+  event_id       BigInt           @id @default(autoincrement()) @db.UnsignedBigInt
+  event_uuid     String?          @unique(map: "event_uuid") @db.VarChar(255)
+  event_name     String?          @db.VarChar(255)
+  event_picture  String           @default("https://picsum.photos/300/200") @db.VarChar(255)
+  event_desc     String?          @db.Text
+  event_start    DateTime?        @db.Timestamp(0)
+  event_end      DateTime?        @db.Timestamp(0)
+  created_at     DateTime?        @db.Timestamp(0)
+  updated_at     DateTime?        @db.Timestamp(0)
+  event_register event_register[]
+}
+
+model event_register {
+  evreg_id       BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  evreg_user_id  BigInt    @db.UnsignedBigInt
+  evreg_event_id BigInt    @db.UnsignedBigInt
+  evreg_lat      String?   @db.VarChar(255)
+  evreg_lng      String?   @db.VarChar(255)
+  created_at     DateTime? @db.Timestamp(0)
+  updated_at     DateTime? @db.Timestamp(0)
+  event          event     @relation(fields: [evreg_event_id], references: [event_id], onDelete: Cascade, onUpdate: NoAction, map: "event_register_evreg_event_id_foreign")
+  user           user      @relation(fields: [evreg_user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "event_register_evreg_user_id_foreign")
+
+  @@unique([evreg_user_id, evreg_event_id], map: "event_register_evreg_user_id_evreg_event_id_unique")
+  @@index([evreg_event_id], map: "event_register_evreg_event_id_foreign")
+}
+
+model user {
+  user_id        BigInt           @id @default(autoincrement()) @db.UnsignedBigInt
+  email          String           @unique(map: "user_email_unique") @db.VarChar(100)
+  password       String           @db.VarChar(255)
+  picture        String           @default("default.png") @db.VarChar(255)
+  gender         user_gender      @default(male)
+  fullname       String?          @db.VarChar(255)
+  birthday       DateTime?        @db.Date
+  created_at     DateTime?        @db.Timestamp(0)
+  updated_at     DateTime?        @db.Timestamp(0)
+  event_register event_register[]
+}
+
+enum user_gender {
+  male
+  female
+}

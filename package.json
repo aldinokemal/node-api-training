@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^3.5.0",
     "@types/body-parser": "^1.19.2",
     "@types/http-status": "^1.1.2",
     "@types/method-override": "^0.0.32",

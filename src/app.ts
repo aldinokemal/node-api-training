@@ -26,10 +26,11 @@ class Server {
 
     start() {
         // Database
-        const db = new Database().connect()
+        // const db = new Database().connect()
+        const dbPrisma = new Database().connectPrisma()
 
         // Repositoru
-        const userRepository = new UserRepository(db)
+        const userRepository = new UserRepository(dbPrisma)
         // Service
         const authService = new AuthService(userRepository)
         // Controller

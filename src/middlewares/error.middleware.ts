@@ -9,7 +9,10 @@ export const errorMiddleware = (err: any, req: Request, res: Response, next: Nex
         responseJSON(res, err.status, null, err.message)
     } else if (err instanceof ValidationException) {
         responseJSON(res, err.status, null, err.message)
+    } else if (err instanceof TypeError) {
+        responseJSON(res, httpStatus.INTERNAL_SERVER_ERROR, null, err.message)
     } else {
-        responseJSON(res, httpStatus.INTERNAL_SERVER_ERROR, null, "Something Erorr")
+        console.log(err)
+        responseJSON(res, httpStatus.INTERNAL_SERVER_ERROR, null, "Something error !")
     }
 }

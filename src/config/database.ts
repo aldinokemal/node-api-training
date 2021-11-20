@@ -1,7 +1,13 @@
 import {config} from "@src/config/index";
 import mysql, {Connection} from 'mysql2';
+import {PrismaClient} from '@prisma/client'
 
 class Database {
+
+    connectPrisma() {
+        return new PrismaClient();
+    }
+
     connect(): Connection {
         return mysql.createConnection({
             host: config.DB_HOST,
