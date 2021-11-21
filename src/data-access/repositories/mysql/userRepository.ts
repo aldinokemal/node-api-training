@@ -1,6 +1,7 @@
 import {IUserRepository} from "@src/data-access/contracts/userInterface";
 import {IUser} from "@src/data-access/entities/user";
 import {PrismaClient} from "@prisma/client";
+import bcrypt from "bcrypt";
 
 export default class UserRepository implements IUserRepository<any> {
     db: PrismaClient
@@ -53,6 +54,35 @@ export default class UserRepository implements IUserRepository<any> {
     }
 
     async createUser(email: string, password: string): Promise<IUser | undefined> {
-        return Promise.resolve(undefined);
+        try {
+            let dataUser: IUser = {
+                user_id: 0,
+                email: '',
+                password: '',
+                picture: '',
+                gender: '',
+                fullname: null,
+                birthday: null,
+                created_at: null,
+                updated_at: null,
+            }
+            await this.db.$transaction(async (prisma) => {
+                password = await bcrypt.hash(password, 10)
+                const newUser = await prisma.user.create({
+                    data: {email, password, created_at: new Date(), updated_at: new Date()}
+                })
+                dataUser.user_id = Number(newUser.user_id)
+                dataUser.email = newUser.email
+                dataUser.password = newUser.password
+                dataUser.picture = newUser.picture
+                dataUser.created_at = newUser.created_at
+                dataUser.updated_at = newUser.updated_at
+            })
+
+            return Promise.resolve(dataUser);
+        } catch (err) {
+            console.log(err)
+            return Promise.resolve(undefined);
+        }
     }
 }

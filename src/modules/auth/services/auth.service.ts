@@ -34,8 +34,8 @@ export class AuthService {
     }
 
     async register(data: ILoginRequest): Promise<IRegisterResponse> {
-        this.userRepoSitory
-
+        let inserting = await this.userRepoSitory.createUser(data.email, data.password)
+        if (inserting == undefined) throw new InternalException('Cannot create user in database')
         return {
             message: "Register success"
         }
