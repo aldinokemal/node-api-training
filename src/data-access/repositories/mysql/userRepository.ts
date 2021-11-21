@@ -10,9 +10,11 @@ export default class UserRepository implements IUserRepository<any> {
         this.db = db;
     }
 
-    async findBy(): Promise<IUser[] | undefined> {
+    async findBy(where: any): Promise<IUser[] | undefined> {
+        // @example: prisma.post.findMany({ where: { title: { contains: 'prisma' } } }),
+
         let output: IUser[] = [];
-        let data = await this.db.user.findMany()
+        let data = await this.db.user.findMany({where: where})
         data.map(e => {
             let user: IUser = {
                 user_id: Number(e.user_id),
@@ -28,7 +30,6 @@ export default class UserRepository implements IUserRepository<any> {
             output.push(user)
         })
         return Promise.resolve(output);
-        // return Promise.resolve(this.books);
     }
 
     async findOneByEmail(email: string): Promise<IUser | undefined> {
