@@ -34,6 +34,10 @@ export class AuthService {
     }
 
     async register(data: ILoginRequest): Promise<IRegisterResponse> {
+        // checking is exist email ?
+        let dataUser = await this.userRepoSitory.findOneByEmail(data.email)
+        if (dataUser != undefined) throw new InternalException(`Email ${data.email} already used`)
+
         let inserting = await this.userRepoSitory.createUser(data.email, data.password)
         if (inserting == undefined) throw new InternalException('Cannot create user in database')
         return {
