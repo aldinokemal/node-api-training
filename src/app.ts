@@ -1,9 +1,9 @@
 import express from 'express';
 import {logger} from "@src/helpers/logger";
 import bodyParser from "body-parser";
-import AuthController from "@src/controllers/auth/authController";
+import AuthController from "@modules/auth/controllers/auth.controller";
 import UserRepository from "@src/data-access/repositories/mysql/userRepository";
-import {AuthService} from "@src/services/auth/authService";
+import {AuthService} from "@modules/auth/services/auth.service";
 import {errorMiddleware, timeOutMiddleware} from "@src/middlewares";
 import {responseJSON} from "@helpers/response";
 import multerParser from "multer";

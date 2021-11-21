@@ -51,4 +51,8 @@ export default class UserRepository implements IUserRepository<any> {
             return Promise.resolve(undefined)
         }
     }
+
+    async createUser(email: string, password: string): Promise<IUser | undefined> {
+        return Promise.resolve(undefined);
+    }
 }
