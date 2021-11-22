@@ -9,8 +9,8 @@ import {IRegisterResponse} from "@modules/auth/interfaces/register.interface";
 export class AuthService {
     userRepoSitory: IUserRepository<any>;
 
-    constructor(bookRepository: IUserRepository<any>) {
-        this.userRepoSitory = bookRepository;
+    constructor(userRepository: IUserRepository<any>) {
+        this.userRepoSitory = userRepository;
     }
 
     async login(data: ILoginRequest): Promise<ILoginResponse> {
